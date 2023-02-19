@@ -1,0 +1,131 @@
+% SYNTAX TEST "Packages/PostScript/PostScript.sublime-syntax"
+
+% comment {/%) blah blah blah
+% <- punctuation.definition.comment
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.ps
+
+%%Page: 1 1
+% <- meta.directive.structure.ps comment.line.percentage.ps punctuation.definition.comment.ps
+%^^^^^^^^^^^ meta.directive.structure.ps comment.line.percentage.ps
+%^ punctuation.definition.comment.ps
+% ^^^^ keyword.control.directive.ps
+%     ^ punctuation.separator.key-value.ps
+
+  123 -98 +17
+% ^^^ constant.numeric
+%     ^^^ constant.numeric
+%         ^^^ constant.numeric
+
+  -.002 123.6e10 1.0E-5 -1. 0.0
+% ^^^^^ constant.numeric
+%       ^^^^^^^^ constant.numeric
+%                ^^^^^^ constant.numeric
+%                       ^^^ constant.numeric
+%                           ^^^ constant.numeric
+
+  8#1 16#F 32#1z
+% ^^^ constant.numeric
+%     ^^^^ constant.numeric
+%          ^^^^^ constant.numeric
+
+  true false null
+% ^^^^ constant.language.boolean.ps
+%      ^^^^^ constant.language.boolean.ps
+%            ^^^^ constant.language.null.ps
+
+  systemdict globaldict userdict
+% ^^^^^^^^^^ constant.other.dictionary.ps
+%            ^^^^^^^^^^ constant.other.dictionary.ps
+%                       ^^^^^^^^ constant.other.dictionary.ps
+
+(Strings may contain special characters *!&}^% and
+% <- meta.string.literal.ps string.other.ps punctuation.definition.string.begin.ps
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.literal.ps string.other.ps
+balanced parentheses (()) (and so on).)
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.literal.ps string.other.ps
+%                                     ^ punctuation.definition.string.end.ps
+
+(\n \377 \) )
+% <- meta.string.literal.ps string.other.ps punctuation.definition.string.begin.ps
+%^^^^^^^^^^^^ meta.string.literal.ps string.other.ps
+%^^ constant.character.escape.ps
+%   ^^^^ constant.character.escape.octal.ps
+%        ^^ constant.character.escape.ps
+%           ^ punctuation.definition.string.end.ps
+
+<hex>
+% <- meta.string.hexadecimal.ps string.other.ps punctuation.definition.string.begin.ps
+%^^^^ meta.string.hexadecimal.ps string.other.ps
+%^ invalid.illegal.unexpected-character
+%  ^ invalid.illegal.unexpected-character
+%   ^ punctuation.definition.string.end.ps
+
+  <~asc¡i~>
+% ^^^^^^^^^ meta.string.ascii.ps string.other.ps
+% ^^ punctuation.definition.string.begin.ps
+%      ^ invalid.illegal.unexpected-character
+%        ^^ punctuation.definition.string.end.ps
+
+abc Offset $$ 23A 13−456 a.b $MyDict @pattern
+%^^ variable.other.readwrite
+%   ^^^^^^ variable.other.readwrite
+%          ^^ variable.other.readwrite
+%             ^^^ variable.other.readwrite
+%                ^ - variable.other.readwrite
+%                 ^^^^^^ variable.other.readwrite
+%                        ^^^ variable.other.readwrite
+%                            ^^^^^^^ variable.other.readwrite
+%                                    ^^^^^^^^ variable.other.readwrite
+
+/
+% <- variable.other.readwrite.ps punctuation.definition.variable.ps
+%^ - variable
+
+//
+% <- variable.other.readwrite.ps punctuation.definition.variable.ps
+%^ variable.other.readwrite.ps punctuation.definition.variable.ps
+% ^ - variable
+
+/name //name
+% <- variable.other.readwrite.ps punctuation.definition.variable.ps
+%^^^^ variable.other.readwrite.ps - punctuation
+%    ^ - variable
+%     ^^ variable.other.readwrite.ps punctuation.definition.variable.ps
+%       ^^^^ variable.other.readwrite.ps - punctuation
+%           ^ - variable
+
+[/name 22 <f00> (str)]
+% <- meta.sequence.array.ps punctuation.section.sequence.begin.ps
+%^^^^^^^^^^^^^^^^^^^^^ meta.sequence.array.ps
+%^^^^^ variable.other.readwrite
+%      ^^ meta.number.integer.decimal.ps constant.numeric.value.ps
+%         ^^^^^ meta.string.hexadecimal.ps string.other.ps
+%               ^^^^^ meta.string.literal.ps string.other.ps
+%                    ^ punctuation.section.sequence.end.ps
+
+{/name 22 <f00> (str)}
+% <- meta.block.ps punctuation.section.block.begin.ps
+%^^^^^^^^^^^^^^^^^^^^^ meta.block.ps
+%^^^^^ variable.other.readwrite
+%      ^^ meta.number.integer.decimal.ps constant.numeric.value.ps
+%         ^^^^^ meta.string.hexadecimal.ps string.other.ps
+%               ^^^^^ meta.string.literal.ps string.other.ps
+%                    ^ punctuation.section.block.end.ps
+
+ << dictionary >>
+%^^^^^^^^^^^^^^^^ meta.mapping.ps
+%^^ punctuation.section.mapping.begin.ps
+%              ^^ punctuation.section.mapping.end.ps
+
+= ==
+% <- keyword.operator.file
+% ^^ keyword.operator.file
+
+1 2 add
+%   ^^^ keyword.operator.arithmetic
+
+1 2 le
+%   ^^ keyword.operator.comparison
+
+a b gt {a} {b} ifelse
+%              ^^^^^^ keyword.operator.control
